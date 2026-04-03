@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Blog() {
   const posts = [
     {
@@ -20,6 +22,16 @@ export default function Blog() {
     }
   ];
 
+  const navItems = [
+    { label: "Home", href: "/", blue: true },
+    { label: "Blog", href: "/blog", blue: false },
+    { label: "Gallery", href: "/photo_gallery", blue: true },
+    { label: "Message Board", href: "/message_board", blue: false },
+    { label: "Weather", href: "/weather_app", blue: true },
+    { label: "Portfolio", href: "/portfolio", blue: false },
+    { label: "About", href: "/about", blue: true }
+  ];
+
   return (  
     <main className="min-h-screen bg-amber-400 p-2 md:p-2 font-mono selection:bg-blue-500 selection:text-white">
       <div className="max-w-8xl mx-auto">
@@ -31,10 +43,10 @@ export default function Blog() {
           </h1>
           <div className="flex flex-wrap gap-4 mb-6">
             {/* Nav buttons kept for consistency */}
-            {["Home", "Blog", "Gallery", "Message Board", "Weather", "Portfolio", "About"].map((item, i) => (
-              <button key={item} className={`${i % 2 === 0 ? 'bg-blue-500 text-white' : 'bg-white text-black'} border-4 border-black px-6 py-3 font-bold text-xl hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all uppercase`}>
-                {item}
-              </button>
+            {navItems.map((item) => (
+              <Link key={item.label} href={item.href} className={`inline-block ${item.blue ? 'bg-blue-500 text-white' : 'bg-white text-black'} border-4 border-black px-6 py-3 font-bold text-xl hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all uppercase`}>
+                {item.label}
+              </Link>
             ))}
           </div>
           <div className="border-t-4 border-black pt-4">
