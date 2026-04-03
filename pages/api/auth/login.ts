@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import pool from '../../../lib/db';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { email, password } = req.body;
 
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, process.env.NEXTAUTH_SECRET, {
+      const token = jwt.sign({ id: user.id, email: user.email }, process.env.NEXTAUTH_SECRET as string, {
         expiresIn: '1h',
       });
 

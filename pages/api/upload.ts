@@ -1,17 +1,20 @@
 import multer from 'multer';
-import nextConnect from 'next-connect';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const upload = multer({ dest: 'uploads/' });
 
-const apiRoute = nextConnect();
-apiRoute.use(upload.single('file'));
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
+    try {
+      res.status(200).json({ message: 'File uploaded successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error uploading file' });
+    }
+  } else {
+    res.status(405).json({ message: 'Method not allowed' });
+  }
+}
 
-apiRoute.post((req, res) => {
-  const file = req.file;
-  res.status(200).json({ file });
-});
-
-export default apiRoute;
 export const config = {
   api: {
     bodyParser: false,
