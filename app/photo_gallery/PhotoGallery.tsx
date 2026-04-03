@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 
+interface Photo {
+  id: number;
+  file_path: string;
+  original_name: string;
+}
+
 export default function PhotoGallery() {
-  const [photos, setPhotos] = useState([]);
+  const [photos, setPhotos] = useState<Photo[]>([]);
 
   useEffect(() => {
     fetch('/api/get-photos')

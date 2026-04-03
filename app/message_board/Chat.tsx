@@ -1,26 +1,37 @@
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 
-let socket;
+interface Message {
+  userId: number;
+  content: string;
+}
+
+let socket: Socket | undefined;
 
 export default function Chat() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
     socket = io();
 
-    socket.on('receiveMessage', (message) => {
+    socket.on('receiveMessage', (message: Message) => {
       setMessages((prev) => [...prev, message]);
     });
 
-    return () => socket.disconnect();
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
   }, []);
 
   const sendMessage = () => {
-    const message = { userId: 1, content: newMessage }; // Replace with actual user ID
-    socket.emit('sendMessage', message);
-    setNewMessage('');
+    if (socket) {
+      const message = { userId: 1, content: newMessage };
+      socket.emit('sendMessage', message);
+      setNewMessage('');
+    }
   };
 
   return (
