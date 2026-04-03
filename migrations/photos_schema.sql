@@ -1,0 +1,7 @@
+CREATE TABLE photos (
+  id SERIAL PRIMARY KEY,
+  original_name VARCHAR(255) NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
+  file_path TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
